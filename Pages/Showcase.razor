@@ -1,11 +1,35 @@
 ﻿@page "/showcase"
+@layout NoNavLayout
+@inject NavigationManager NavMag
     <div class="d-flex">
-    <span class="fas fa-hand-sparkles fa-2x"></span><h3><strong> Showcase</strong></h3>
+    <span class="fas fa-hand-sparkles fa-2x"></span><h3><strong> Showcase @RandomService.RandomId </strong></h3>
     </div>
+
+<button class="btn btn-dark m-2" @onclick="GoHome">Go Home</button>
+
+<div>
+
+    <form>
+        <input type="number" @bind-value="@countStart"/> 
+    </form>
+    <span>
+        <button type="submit" class="btn btn-danger" @onclick="CountStr">start at @countStart</button>
+        </span>
+</div>
 
 
 <ParentComponent AlertText="This is an alert" />
 
 @code {
+    private void GoHome()
+    {
+        NavMag.NavigateTo(uri: "/");
+    }
 
+    int countStart = 0;
+
+    private void CountStr()
+    {
+        NavMag.NavigateTo(uri: $"counter/{countStart}");
+    }
 }

@@ -1,16 +1,25 @@
-﻿@page "/counter"
+﻿@page "/counter/{StartingCount:int}"
+@page "/counter"
 
 <h1>Counter</h1>
 
-<p>Current count: @currentCount</p>
+<p>Current count: @newCurrentCount</p>
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-    private int currentCount = 0;
+
+    [Parameter] public int StartingCount { get; set; } = 0;
+
+    private int newCurrentCount = 0;
+
+    protected override void OnInitialized()
+    {
+        newCurrentCount = StartingCount;
+    }
 
     private void IncrementCount()
     {
-        currentCount++;
+        newCurrentCount++;
     }
 }
