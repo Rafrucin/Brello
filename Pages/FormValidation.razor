@@ -1,0 +1,58 @@
+﻿@page "/form-example"
+@using Brello.Data
+@using System.Text.Json
+
+<h3>Form Validation</h3>
+
+<EditForm Model="@jobapp" OnValidSubmit="@SubmitJobApp">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <p class="form-group row">
+        <label for="FullName" class="col-form-label col-2 input-group-prepend">FullName</label>
+        <InputText class="form-control" id="FullName" @bind-Value="jobapp.FullName" />
+        <ValidationMessage For="@(() => jobapp.FullName)" />
+    </p>
+    <p class="input-group col-6 my-2">
+        <label class="input-group-prepend input-group-text">Description</label>
+        <InputTextArea class="form-control" placeholder="Text" id="description" @bind-Value="jobapp.Description" />
+    </p>
+    <p>
+        <label>Salary Expectation</label>
+        <InputNumber id="Salary" @bind-Value="jobapp.SalaryExpectation" />
+    </p>
+    <p>
+        <label>Open Source</label>
+        <InputCheckbox id="Salary" @bind-Value="jobapp.DoesOpenSource" />
+    </p>
+    <p>
+        <label>Availability</label>
+        <InputDate id="Salary" @bind-Value="jobapp.Availability" />
+    </p>
+
+
+
+
+        <div class="input-group col-6 my-2">
+            <label class="input-group-prepend input-group-text">RR</label>            
+            <InputDate class="form-control" id="FullName" placeholder="Date" @bind-Value="jobapp.Availability"  />
+        </div>
+
+
+    <button type="submit" class="btn btn-info">Submit</button>
+
+</EditForm>
+
+
+
+
+<div><span id="resultJson">@result</span></div>
+
+@code {
+    private Jobapp jobapp = new Jobapp();
+    string result = string.Empty;
+
+    private void SubmitJobApp()
+    {
+        result = JsonSerializer.Serialize(jobapp).ToString();
+    }
+}

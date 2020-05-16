@@ -25,6 +25,13 @@
 
 <button class="btn btn-success" @onclick="FocusNow">Focus</button>
 
+<h3>Random</h3>
+<div>
+    random namber is  <span id="RandomNumber"></span>
+</div>
+<button class="btn btn-info" onclick="GenerateRN(100)">Random</button>
+
+
 
 @code {
 
@@ -50,6 +57,13 @@
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
-        JsRuntime.InvokeVoidAsync(identifier: "focusJS", foc);
+            JsRuntime.InvokeVoidAsync(identifier: "focusJS", foc);
+    }
+
+
+    [JSInvokable]
+    public static Task<int> GenerateRandomInt(int maxValue)
+    {
+        return Task.FromResult(new Random().Next(maxValue));
     }
 }

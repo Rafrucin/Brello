@@ -13,3 +13,10 @@ function setElementTextById(id, text) {
 function focusJS(element) {
     element.focus();
 }
+
+function GenerateRN(maxIntSize) {
+    DotNet.invokeMethodAsync('Brello', 'GenerateRandomInt', maxIntSize)
+        .then(result => {
+            setElementTextById('RandomNumber', result);
+        });
+}
