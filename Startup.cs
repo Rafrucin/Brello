@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Brello.Data;
 using Brello.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 
 namespace Brello
 {
@@ -27,8 +31,12 @@ namespace Brello
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(optionsAction: options =>
+            options.UseSqlite(connectionString: "DataSource=app.db"));
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<RandomService>();
         }
@@ -52,8 +60,13 @@ namespace Brello
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

@@ -1,6 +1,9 @@
 ﻿@page "/showcase"
 @layout NoNavLayout
 @inject NavigationManager NavMag
+@attribute [Authorize]
+
+
     <div class="d-flex">
     <span class="fas fa-hand-sparkles fa-2x"></span><h3><strong> Showcase @RandomService.RandomId </strong></h3>
     </div>
